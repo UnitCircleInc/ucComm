@@ -1,0 +1,419 @@
+// © 2024 Unit Circle Inc.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+// Check uint64
+| 00 | 0u
+| 01 | 1u
+| 17 | 23u
+| 1818 | 24u
+| 1819 | 25u
+| 18ff | 255u
+| 190100 | 256u
+| 190101 | 257u
+| 19ffff | 65535u
+| 1a00010000 | 65536u
+| 1a00010001 | 65537u
+| 1affffffff | 4294967295u
+| 1b0000000100000000 | 4294967296u
+| 1b0000000100000001 | 4294967297u
+| 1bffffffffffffffff | 18446744073709551615u
+
+| 1c | error(CBOR_ERROR_INVALID_AI)
+| 1d | error(CBOR_ERROR_INVALID_AI)
+| 1e | error(CBOR_ERROR_INVALID_AI)
+| 1f | error(CBOR_ERROR_INVALID_AI)
+| 18 | error(CBOR_ERROR_END_OF_STREAM)
+| 1901 | error(CBOR_ERROR_END_OF_STREAM)
+| 1a000100 | error(CBOR_ERROR_END_OF_STREAM)
+| 1b00000001000000|  error(CBOR_ERROR_END_OF_STREAM)
+
+| 1800 | decodeonly(0u)
+| 190001 | decodeonly(1u)
+| 1a00000002 | decodeonly(2u)
+| 1b0000000000000003 | decodeonly(3u)
+
+| 1bffffffffffffffff | error(CBOR_ERROR_NONE, UINT64)
+| 1b0000000100000000 | error(CBOR_ERROR_RANGE, UINT32)
+| 1affffffff | error(CBOR_ERROR_NONE, UINT32)
+| 1a00010000 | error(CBOR_ERROR_RANGE, UINT16)
+| 19ffff | error(CBOR_ERROR_NONE, UINT16)
+| 190100 | error(CBOR_ERROR_RANGE, UINT8)
+| 18ff | error(CBOR_ERROR_NONE, UINT8)
+
+// Check int64
+| 00 | 0
+| 01 | 1
+| 17 | 23
+| 1818 | 24
+| 1819 | 25
+| 18ff | 255
+| 190100 | 256
+| 190101 | 257
+| 19ffff | 65535
+| 1a00010000 | 65536
+| 1a00010001 | 65537
+| 1affffffff | 4294967295
+| 1b0000000100000000 | 4294967296
+| 1b0000000100000001 | 4294967297
+| 1b7fffffffffffffff | 9223372036854775807 // Max int64_t
+| 20 | -1
+| 21 | -2
+| 37 | -24
+| 3818 | -25
+| 3819 | -26
+| 38ff | -256
+| 390100 | -257
+| 390101 | -258
+| 39ffff | -65536
+| 3a00010000 | -65537
+| 3a00010001 | -65538
+| 3affffffff | -4294967296
+| 3b0000000100000000 | -4294967297
+| 3b0000000100000001 | -4294967298
+| 3b7fffffffffffffff | -9223372036854775808 // Min int64_t
+
+| 3c | error(CBOR_ERROR_INVALID_AI)
+| 3d | error(CBOR_ERROR_INVALID_AI)
+| 3e | error(CBOR_ERROR_INVALID_AI)
+| 3f | error(CBOR_ERROR_INVALID_AI)
+| 38 | error(CBOR_ERROR_END_OF_STREAM)
+| 3901 | error(CBOR_ERROR_END_OF_STREAM)
+| 3a000100 | error(CBOR_ERROR_END_OF_STREAM)
+| 3b00000001000000 |  error(CBOR_ERROR_END_OF_STREAM)
+
+| 1b7fffffffffffffff | error(CBOR_ERROR_NONE, INT64)
+| 1b8000000000000000 | error(CBOR_ERROR_RANGE, INT64)
+| 1bffffffffffffffff | error(CBOR_ERROR_RANGE, INT64)
+| 1a7fffffff | error(CBOR_ERROR_NONE, INT32)
+| 1a80000000 | error(CBOR_ERROR_RANGE, INT32)
+| 1affffffff | error(CBOR_ERROR_RANGE, INT32)
+| 197fff | error(CBOR_ERROR_NONE, INT16)
+| 198000 | error(CBOR_ERROR_RANGE, INT16)
+| 19ffff | error(CBOR_ERROR_RANGE, INT16)
+| 187f | error(CBOR_ERROR_NONE, INT8)
+| 1880 | error(CBOR_ERROR_RANGE, INT8)
+| 18ff | error(CBOR_ERROR_RANGE, INT8)
+
+| 3b7fffffffffffffff | error(CBOR_ERROR_NONE, INT64)
+| 3b8000000000000000 | error(CBOR_ERROR_RANGE, INT64)
+| 3bffffffffffffffff | error(CBOR_ERROR_RANGE, INT64)
+| 3a7fffffff | error(CBOR_ERROR_NONE, INT32)
+| 3a80000000 | error(CBOR_ERROR_RANGE, INT32)
+| 3affffffff | error(CBOR_ERROR_RANGE, INT32)
+| 397fff | error(CBOR_ERROR_NONE, INT16)
+| 398000 | error(CBOR_ERROR_RANGE, INT16)
+| 39ffff | error(CBOR_ERROR_RANGE, INT16)
+| 387f | error(CBOR_ERROR_NONE, INT8)
+| 3880 | error(CBOR_ERROR_RANGE, INT8)
+| 38ff | error(CBOR_ERROR_RANGE, INT8)
+
+| 1800 | decodeonly(0)
+| 190001 | decodeonly(1)
+| 1a00000002 | decodeonly(2)
+| 1b0000000000000003 | decodeonly(3)
+
+| 3800 | decodeonly(-1)
+| 390001 | decodeonly(-2)
+| 3a00000002 | decodeonly(-3)
+| 3b0000000000000003 | decodeonly(-4)
+
+// Simple values
+| f4 | false
+| f5 | true
+| f6 | null
+| f7 | undefined
+| e0 | simple(0)
+| e1 | simple(1)
+| f3 | simple(19)
+| f820 | simple(32)
+| f8ff | simple(255)
+
+| f800 | error(CBOR_ERROR_BAD_SIMPLE_VALUE)
+| f817 | error(CBOR_ERROR_BAD_SIMPLE_VALUE)
+| f818 | error(CBOR_ERROR_BAD_SIMPLE_VALUE)
+| f81f | error(CBOR_ERROR_BAD_SIMPLE_VALUE)
+| fc   | error(CBOR_ERROR_INVALID_AI)
+| fd   | error(CBOR_ERROR_INVALID_AI)
+| fe   | error(CBOR_ERROR_INVALID_AI)
+| ff   | error(CBOR_ERROR_UNEXPECTED_BREAK)
+| f8   | error(CBOR_ERROR_END_OF_STREAM)
+
+// Float values
+| f90000 | 0.0
+| f98000 | -0.0
+| f967ff | 2047.0
+| f9e7ff | -2047.0
+| fa457ff000 | 4095.0
+| fac57ff000 | -4095.0
+| fa4b7fffff | 16777215.0
+| facb7fffff | -16777215.0
+| fb417ffffff0000000 | 33554431.0
+| fbc17ffffff0000000 | -33554431.0
+| f97c00 | inf
+| f9fc00 | -inf
+| f97e00 | nan
+| fa7f800000 | decodeonly(inf)
+| faff800000 | decodeonly(-inf)
+| fa7fc00000 | decodeonly(nan)
+| fb7ff0000000000000 | decodeonly(inf)
+| fbfff0000000000000 | decodeonly(-inf)
+| fb7ff8000000000000 | decodeonly(nan)
+
+| f900 | error(CBOR_ERROR_END_OF_STREAM)
+| fa457ff0 | error(CBOR_ERROR_END_OF_STREAM)
+| fb417ffffff00000 |  error(CBOR_ERROR_END_OF_STREAM)
+
+| f90000 | error(CBOR_ERROR_NONE, FLOAT64)
+| f90000 | error(CBOR_ERROR_NONE, FLOAT32)
+| f90000 | error(CBOR_ERROR_NONE, FLOAT16)
+| fa457ff000 | error(CBOR_ERROR_NONE, FLOAT64)
+| fa457ff000 | error(CBOR_ERROR_NONE, FLOAT32)
+| fa457ff000 | error(CBOR_ERROR_NONE, FLOAT16)
+| fb417ffffff0000000 | error(CBOR_ERROR_NONE, FLOAT64)
+| fb417ffffff0000000 | error(CBOR_ERROR_NONE, FLOAT32)
+| fb417ffffff0000000 | error(CBOR_ERROR_NONE, FLOAT16)
+
+// Int values will decode as floats
+| 1819 | error(CBOR_ERROR_NONE, FLOAT64)
+| 3818 | error(CBOR_ERROR_NONE, FLOAT64)
+
+
+// Tagged values
+| c11a514b67b0 |                   1u(1363896240)
+| c1fb41d452d9ec200000 |           1u(1363896240.5)
+| d74401020304 |                   23u('01020304')
+| d818456449455446 |               24u('6449455446')
+| d82076687474703a2f2f7777772e6578
+  616d706c652e636f6d |             32u("http://www.example.com")
+| d8ff00 | 255u(0)
+| d9010000 | 256u(0)
+| d9ffff00 | 65535u(0)
+| da0001000000 | 65536u(0)
+| daffffffff00 | 4294967295u(0)
+| db000000010000000000 | 4294967296u(0)
+| dbffffffffffffffff00 | 18446744073709551615u(0)
+
+| c249010000000000000000 | 2u('010000000000000000') // +bignum tag
+| c349010000000000000000 | 3u('010000000000000000') // -bignum tag
+
+| c11a514b67b0          | datetime(1363896240)
+| c1fb41d452d9ec200000  | datetime(1363896240.5)
+| c1fb41d757ad69624791  | datetime(1566487973.535618)
+| c11a5d5eb5a5  | datetime(1566487973)
+| c07820323032342d30392d30375431373a30373a34352e3337353230362b30303a3330 |  datetime("2024-09-07T17:07:45.375206+00:30", 1725727065.375206)
+| c07820323031392d30382d32325431353a33323a35332e3533363631382b30303a3030 |  datetime("2019-08-22T15:32:53.536618+00:00", 1566487973.536618)
+| c07820323031392d30382d32325431353a33323a35332e3533363631382b30313a3030 |  datetime("2019-08-22T15:32:53.536618+01:00", 1566484373.536618)
+| c07820323031392d30382d32325431353a33323a35332e3533363631382d30343a3030 |  datetime("2019-08-22T15:32:53.536618-04:00", 1566502373.536618)
+| c07818323031392d30382d32325431353a33323a35332e3533365a |  datetime("2019-08-22T15:32:53.536Z", 1566487973.536)
+| c074323031392d30382d32325431353a33323a35335a |  datetime("2019-08-22T15:32:53Z", 1566487973.0)
+
+| c0 |  error(CBOR_ERROR_END_OF_STREAM) // Missing tag item
+| c000 | error(CBOR_ERROR_CANT_CONVERT_TYPE, DATETIME) // Not a text string
+| c060 | error(CBOR_ERROR_RANGE, DATETIME) // Not a standard datetime string
+| c0781b323031392d31332d32325431353a33323a35332e3533353631385a | error(CBOR_ERROR_RANGE, DATETIME)
+
+| c1781b323031392d31322d32325431353a33323a35332e3533353631385a | error(CBOR_ERROR_BAD_DOUBLE, DATETIME) // Data item not a number
+| c0781a323031392d31322d32325431353a33323a35332e353335363138 | error(CBOR_ERROR_RANGE, DATETIME) // Must have a time zone either Z or +/-offset
+| c0781b323031392d31322d32325431353a33323a35332e3533353631382b | error(CBOR_ERROR_RANGE, DATETIME) // Incomplete timezone offset
+| c0781d323031392d31322d32325431353a33323a35332e3533353631382b3030 | error(CBOR_ERROR_RANGE, DATETIME) // Incomplete timezone offset
+| c0781e323031392d31322d32325431353a33323a35332e3533353631382b30303a | error(CBOR_ERROR_RANGE, DATETIME) // Incomplete timezone offset
+| c0781f323031392d31322d32325431353a33323a35332e3533353631382b30303a30 | error(CBOR_ERROR_RANGE, DATETIME) // Incomplete timezone offset
+| c0781c323031392d31322d32325431353a33323a35332e3533353631385a38 | error(CBOR_ERROR_RANGE, DATETIME) // Trailing text after timezone
+| c07815323031392d31322d32325431353a33323a35332e5a | error(CBOR_ERROR_RANGE, DATETIME) // If decimal point then need at least 1 digit
+| c07814323031392d31322d32325431353a33323a36335a | error(CBOR_ERROR_RANGE, DATETIME) // 2019-12-22T15:32:63Z
+| c07814323031392d31322d32325431353a38323a35335a | error(CBOR_ERROR_RANGE, DATETIME) // 2019-12-22T15:82:53Z
+| c07814323031392d31322d32325431353a38323a35335a | error(CBOR_ERROR_RANGE, DATETIME) // 2019-12-22T52:32:53Z
+| c07814323031392d31322d34325431353a33323a35335a | error(CBOR_ERROR_RANGE, DATETIME) // 2019-12-42T15:32:53Z
+| c07814323031392d31322d34325431353a33323a35335a | error(CBOR_ERROR_RANGE, DATETIME) // 201zx12-22T15:32:53Z
+| c07814323031397831322d32325431353a33323a35335a | error(CBOR_ERROR_RANGE, DATETIME) // 2019x12-22T15:32:53Z
+| c07814323031392d31327932325431353a33323a35335a | error(CBOR_ERROR_RANGE, DATETIME) // 2019-12y22T15:32:53Z
+| c07814323031392d31322d32327431353a33323a35335a | error(CBOR_ERROR_RANGE, DATETIME) // 2019-12-22t15:32:53Z
+| c07814323031392d31322d32325431353b33323a35335a | error(CBOR_ERROR_RANGE, DATETIME) // 2019-12-22T15;32:53Z
+| c07814323031392d31322d32325431353a33322835335a | error(CBOR_ERROR_RANGE, DATETIME) // 2019-12-22T15:32(53Z
+| c474323031392d30382d32325431353a33323a35335a | error(CBOR_ERROR_CANT_CONVERT_TYPE, DATETIME) // Tag isn't 0 or 1
+
+| d8184431323334 | encoded( '31323334' )
+| d81800 | error(CBOR_ERROR_BAD_ENCODED, ENCODED)
+
+| c482211870 | decimal(-2, 112)
+| c48222190466 | decimal(-3, 1126)
+| c401 | error(CBOR_ERROR_BAD_DECIMAL, DECIMAL)
+| c480 | error(CBOR_ERROR_BAD_DECIMAL, DECIMAL)
+| c48121 | error(CBOR_ERROR_BAD_DECIMAL, DECIMAL)
+| c483210203 | error(CBOR_ERROR_BAD_DECIMAL, DECIMAL)
+| c49f210203ff | error(CBOR_ERROR_BAD_DECIMAL, DECIMAL)
+| c48261611903f5 | error(CBOR_ERROR_BAD_DECIMAL, DECIMAL)
+| c482216132 | error(CBOR_ERROR_BAD_DECIMAL, DECIMAL)
+
+| d81e820709 | rational(7, 9u)
+| d81e6161 | error(CBOR_ERROR_BAD_RATIONAL, RATIONAL)
+| d81e80 | error(CBOR_ERROR_BAD_RATIONAL, RATIONAL)
+| d81e8107 | error(CBOR_ERROR_BAD_RATIONAL, RATIONAL)
+| d81e82616109 | error(CBOR_ERROR_BAD_RATIONAL, RATIONAL)
+| d81e82096161 | error(CBOR_ERROR_BAD_RATIONAL, RATIONAL)
+| d81e820922 | error(CBOR_ERROR_BAD_RATIONAL, RATIONAL)
+| d81e83070903 | error(CBOR_ERROR_BAD_RATIONAL, RATIONAL)
+| d81e9f070908ff | error(CBOR_ERROR_BAD_RATIONAL, RATIONAL)
+
+| c0 | error(CBOR_ERROR_END_OF_STREAM)
+| d7 | error(CBOR_ERROR_END_OF_STREAM)
+| d8 | error(CBOR_ERROR_END_OF_STREAM)
+| d900 | error(CBOR_ERROR_END_OF_STREAM)
+| da000000 | error(CBOR_ERROR_END_OF_STREAM)
+| db00000000000000 | error(CBOR_ERROR_END_OF_STREAM)
+| d818 | error(CBOR_ERROR_END_OF_STREAM)
+| d90000 | error(CBOR_ERROR_END_OF_STREAM)
+| da00000000 | error(CBOR_ERROR_END_OF_STREAM)
+| db0000000000000000 | error(CBOR_ERROR_END_OF_STREAM)
+
+| d9d9f700 | selfdesc(0)
+| d9d9f7 | error(CBOR_ERROR_END_OF_STREAM, SELFDESC)
+
+// Byte Strings
+| 40 |                             ''
+| 4401020304 |                     '01020304'
+| 5818303030303030303030303030303030303030303030303030 |  '303030303030303030303030303030303030303030303030'
+| 5f46616263646566ff | (_ '616263646566' )
+| 5f40ff | (_ '' )
+| 5f42010243030405ff |             (_ '0102', '030405' )
+| 5fff | ''_
+
+| 5c | error(CBOR_ERROR_INVALID_AI)
+| 5d | error(CBOR_ERROR_INVALID_AI)
+| 5e | error(CBOR_ERROR_INVALID_AI)
+| 4241 | error(CBOR_ERROR_END_OF_STREAM)
+| 5f4661626364656642787a | error(CBOR_ERROR_END_OF_STREAM)
+| 5f6661626364656642787aff | error(CBOR_ERROR_INDEF_MISMATCH)
+| 5f5f46616263646566ffff | error(CBOR_ERROR_INDEF_NESTING)
+
+| 5800 | decodeonly('')
+| 590000 | decodeonly('')
+| 5a00000000 | decodeonly('')
+| 5b0000000000000000 | decodeonly('')
+| 580141 | decodeonly('41')
+| 59000142 | decodeonly('42')
+| 5a0000000143 | decodeonly('43')
+| 5b000000000000000144 | decodeonly('44')
+
+
+// Text Strings
+| 60 |                             ""
+| 6161 |                           "a"
+| 6449455446 |                     "IETF"
+| 62225c |                         "\"\\"
+| 62c3bc |                         "\u00fc"
+| 63e6b0b4 |                       "\u6c34"
+| 64f0908591 |                     "\U00010151" // "\ud800\udd51" we don't handle surrogates recode as utf32
+| 773030303030303030303030303030303030303030303030 | "00000000000000000000000"
+| 7f6661626364656662787a62c2a9ff | (_ "abcdef", "xz", "©" )
+| 7f6062c2a960ff | (_ "", "©", "" )
+| 7f60ff | (_ "" )
+| 7f657374726561646d696e67ff |     (_ "strea", "ming" )
+| 7fff | ""_
+
+| 7c | error(CBOR_ERROR_INVALID_AI)
+| 7d | error(CBOR_ERROR_INVALID_AI)
+| 7e | error(CBOR_ERROR_INVALID_AI)
+| 6241 | error(CBOR_ERROR_END_OF_STREAM)
+| 61c2 | error(CBOR_ERROR_INVALID_UTF8)
+| 7f6661626364656662787a62c2a9 | error(CBOR_ERROR_END_OF_STREAM)
+| 7f4661626364656662787a62c2a9ff | error(CBOR_ERROR_INDEF_MISMATCH)
+| 7f7f66616263646566ffff | error(CBOR_ERROR_INDEF_NESTING)
+| 7f6661626364656662787a61c261a9ff | error(CBOR_ERROR_INVALID_UTF8)
+
+| 7800 | decodeonly("")
+| 790000 | decodeonly("")
+| 7a00000000 | decodeonly("")
+| 7b0000000000000000 | decodeonly("")
+| 780141 | decodeonly("A")
+| 79000142 | decodeonly("B")
+| 7a0000000143 | decodeonly("C")
+| 7b000000000000000144 | decodeonly("D")
+
+
+// Array
+| 80 |                             []
+| 83010203 |                       [1, 2, 3]
+| 8301820203820405 |               [1, [2, 3], [4, 5]]
+| 98190102030405060708090a0b0c0d0e
+  0f101112131415161718181819 |     [1, 2, 3, 4, 5, 6, 7, 8, 9,
+                                   10, 11, 12, 13, 14, 15, 16,
+                                   17, 18, 19, 20, 21, 22, 23,
+                                   24, 25]
+| 81818180 | [[[[]]]]
+| 9fff |                           [_ ]
+| 9f018202039f0405ffff |           [_ 1, [2, 3], [_ 4, 5]]
+| 9f01820203820405ff |             [_ 1, [2, 3], [4, 5]]
+| 83018202039f0405ff |             [1, [2, 3], [_ 4, 5]]
+| 83019f0203ff820405 |             [1, [_ 2, 3], [4, 5]]
+| 9f0102030405060708090a0b0c0d0e0f
+  101112131415161718181819ff |     [_ 1, 2, 3, 4, 5, 6, 7, 8, 9,
+                                   10, 11, 12, 13, 14, 15, 16,
+                                   17, 18, 19, 20, 21, 22, 23,
+                                   24, 25]
+
+| 81 | error(CBOR_ERROR_END_OF_STREAM)
+| 9a0001000100 | error(CBOR_ERROR_ITEM_TOO_LONG)
+| 9c | error(CBOR_ERROR_INVALID_AI)
+| 9d | error(CBOR_ERROR_INVALID_AI)
+| 9e | error(CBOR_ERROR_INVALID_AI)
+| 9f00 | error(CBOR_ERROR_END_OF_STREAM)
+| 818181818180 | error(CBOR_ERROR_RECURSION)
+
+| 9800 | decodeonly([])
+| 990000 | decodeonly([])
+| 9a00000000 | decodeonly([])
+| 9b0000000000000000 | decodeonly([])
+| 980180 | decodeonly([[]])
+| 99000180 | decodeonly([[]])
+| 9a0000000180 | decodeonly([[]])
+| 9b000000000000000180 | decodeonly([[]])
+
+
+// Map
+| a0 |                             {}
+| a201020304 |                     {1: 2, 3: 4}
+| a2f40203f5 |                     {false: 2, 3: true}
+| a5616161416162614261636143616461
+  4461656145 |                     {"a": "A", "b": "B", "c": "C",
+                                   "d": "D", "e": "E"}
+
+| a1 | error(CBOR_ERROR_END_OF_STREAM)
+| a100 | error(CBOR_ERROR_END_OF_STREAM)
+| ba0001000100 | error(CBOR_ERROR_ITEM_TOO_LONG)
+| bc | error(CBOR_ERROR_INVALID_AI)
+| bd | error(CBOR_ERROR_INVALID_AI)
+| be | error(CBOR_ERROR_INVALID_AI)
+| bf00 | error(CBOR_ERROR_END_OF_STREAM)
+| bf0001 | error(CBOR_ERROR_END_OF_STREAM)
+| a1a1a1a1a1a0 | error(CBOR_ERROR_RECURSION)
+| bf00ff | error(CBOR_ERROR_MAP_LENGTH)
+
+| b800 | decodeonly({})
+| b90000 | decodeonly({})
+| ba00000000 | decodeonly({})
+| bb0000000000000000 | decodeonly({})
+| b8010001 | decodeonly({0:1})
+| b900010203 | decodeonly({2:3})
+| ba000000010405 | decodeonly({4:5})
+| bb00000000000000010607 | decodeonly({6:7})
+
+
+// Mixed arrays and maps and ...
+| 826161bf61626163ff |             ["a", {_ "b": "c"}]
+| a26161016162820203 |             {"a": 1, "b": [2, 3]}
+| 826161a161626163 |               ["a", {"b": "c"}]
+| bf61610161629f0203ffff |         {_ "a": 1, "b": [_ 2, 3]}
+| bf6346756ef563416d7421ff |       {_ "Fun": true, "Amt": -2}
+

@@ -1,0 +1,14 @@
+.*.swp
+*.pyc
+bin-*
+__pychache__/
+.venv/
+tmp/
+tools/uclog.log
+uclog.log
+TODO.md
+.DS_Store
+nordic
+release/
+static/
+.$*.drawio.svg.bkp
