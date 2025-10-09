@@ -1,0 +1,4 @@
+name: uccomm
+build:
+  cmake: .
+  kconfig: Kconfig

@@ -1,0 +1,10 @@
+menu "UCComm"
+
+config UCCOMM
+        bool "Enable UC Communication utilities"
+        default n
+        help
+                Enable UC Communication utilities - cobs/cb/cbor/crc32c/pcg32.
+
+
+endmenu
