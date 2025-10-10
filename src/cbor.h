@@ -370,4 +370,4 @@ cbor_error_t cbor_vpack(cbor_stream_t*s, const char*fmt, va_list args);
 //  e - a float16 read as float16_t* paramter
 //  t - a timestamp read as double* parameter
 //  v - a cbor value read as cbor_stream_t* paramater
-cbor_error_t cbor_unpack(cbor_stream_t*s, const char*fmt, ...);
+cbor_error_t cbor_unpack(const cbor_stream_t *s, const char *fmt, ...);
