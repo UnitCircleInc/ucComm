@@ -1,4 +1,4 @@
-// © 2023 Unit Circle Inc.
+// © 2025 Unit Circle Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include <string.h>
+#include "cb.h"
 #include <stdint.h>
-#include <cb.h>
+#include <string.h>
 
 void cb_init(cb_t* cb, void* b, size_t n) {
   cb->b = b;
@@ -74,7 +74,7 @@ void cb_write(cb_t* cb, const void* in, size_t n) {
   size_t n1 = cb->n - cb->write; // max write before wrapping buffer
   if (n1 > n) n1 = n;
   memmove((uint8_t*) cb->b + cb->write, in, n1);
-  if (n > n1) memmove(cb->b, (uint8_t*) in + n1, (n - n1));
+  if (n > n1) memmove(cb->b, (const uint8_t*) in + n1, (n - n1));
   n1 = cb->write + n;
   if (n1 >= cb->n) n1 -= cb->n;
   cb->write = n1;

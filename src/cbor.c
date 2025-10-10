@@ -1873,7 +1873,7 @@ cbor_error_t cbor_unpack1(cbor_unpack_state_t* state) {
   return CBOR_ERROR_NONE;
 }
 
-cbor_error_t cbor_unpack(cbor_stream_t*s, const char* fmt, ...) {
+cbor_error_t cbor_unpack(const cbor_stream_t*s, const char* fmt, ...) {
   cbor_unpack_state_t state = { .s = *s, .fmt = fmt, .level = 0 };
   va_start(state.args, fmt);
   while (*state.fmt != '\0') {
