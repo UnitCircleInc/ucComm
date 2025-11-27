@@ -188,6 +188,7 @@ typedef struct {
 // Initialization and misc functions
 cbor_error_t cbor_init(cbor_stream_t* s, uint8_t* b, size_t n);
 cbor_error_t cbor_dup(const cbor_stream_t* from, cbor_stream_t* to);
+cbor_error_t cbor_append(cbor_stream_t *s, const uint8_t *b, size_t n);
 uint8_t* cbor_cursor(const cbor_stream_t* s);
 size_t cbor_write_avail(const cbor_stream_t* s);
 size_t cbor_read_avail(const cbor_stream_t* s);
@@ -331,7 +332,7 @@ cbor_error_t cbor_write_rational(cbor_stream_t* s, int64_t n, uint64_t d);
 //  ? - bool value read as bool parameter
 //  s - a C null terminated utf8 string read as const char* parameter
 //  S - a utf8 string read as const char* and size_t parameters
-//  b - a list of bytes read as const utf_8* and size_t parameter
+//  b - a list of bytes read as const uint8_t* and size_t parameter
 //  R - a rational read as (num,denom) as int64_t and uint64_t parameters
 //  D - a decimal read as (mant,exp) as int64_t and int64_t parameters
 //  d - a float64 read as float64_t paramter
@@ -361,7 +362,7 @@ cbor_error_t cbor_vpack(cbor_stream_t*s, const char*fmt, va_list args);
 //      adds a null to the end of the actual string
 //      max length needs to include space for null
 //      actual length includes added null
-//  b - a list of bytes read as utf8* and size_t* parameter
+//  b - a list of bytes read as uint8_t* and size_t* parameter
 //      size_t is read as max length and written as actual length
 //  R - a rational read as (num,denom) as int64_t* and uint64_t* parameters
 //  D - a decimal read as (mant,exp) as int64_t* and int64_t* parameters

@@ -533,6 +533,35 @@ TEST test_text(void) {
   PASS();
 }
 
+TEST test_append(void) {
+  uint8_t b1[200];
+  uint8_t b2[200];
+  cbor_stream_t s1;
+  cbor_stream_t s2;
+  cbor_error_t e;
+
+  cbor_init(&s1, b1, sizeof(b1));
+  cbor_write_text(&s1, "x");
+  cbor_write_text(&s1, "y");
+
+  cbor_init(&s2, b2, sizeof(b2));
+  cbor_write_map_start(&s2);
+  cbor_write_text(&s2, "a");
+  cbor_write_text(&s2, "b");
+  cbor_append(&s2, b1, cbor_read_avail(&s1));
+  cbor_write_text(&s2, "c");
+  cbor_write_text(&s2, "d");
+  cbor_write_end(&s2);
+
+  for (size_t i = 0; i < cbor_read_avail(&s2); i++) {
+    printf("%02x", b2[i]);
+  }
+  printf("\n");
+
+  PASS();
+}
+
+
 SUITE(the_suite) {
   RUN_TEST(test_int64);
   RUN_TEST(test_uint64);
@@ -540,6 +569,7 @@ SUITE(the_suite) {
   RUN_TEST(test_float);
   RUN_TEST(test_bytes);
   RUN_TEST(test_text);
+  RUN_TEST(test_append);
 }
 
 GREATEST_MAIN_DEFS();

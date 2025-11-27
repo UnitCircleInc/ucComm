@@ -1025,6 +1025,14 @@ size_t cbor_read_avail(const cbor_stream_t*s) {
   return s->b - s->s;
 }
 
+cbor_error_t cbor_append(cbor_stream_t* s, const uint8_t* b, size_t n) {
+  if (s == NULL) return CBOR_ERROR_NULL;
+  if (s->n < n) RET_ERROR(s, CBOR_ERROR_END_OF_STREAM);
+  memmove(s->b, b, n);
+  s->b += n;
+  s->n -= n;
+  return CBOR_ERROR_NONE;
+}
 
 cbor_error_t cbor_skip(cbor_stream_t* s, size_t n) {
   while (n-- > 0) {

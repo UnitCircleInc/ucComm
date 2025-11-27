@@ -17,6 +17,12 @@ test: build/dninterp tests.dn
 	build/dninterp tests.dn
 	gcov build/dninterp-cbor.gcno
 
+test-cbor: build/test_cbor
+	build/test_cbor
+
+test-cobs: build/test_cobs
+	build/test_cobs
+
 clean:
 	rm -rf build
 	rm -f *.gcov
