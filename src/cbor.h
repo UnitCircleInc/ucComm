@@ -62,6 +62,10 @@
 #include <stdbool.h>
 #include <stdarg.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // NOTE:
 //  It would seem to be "better" to use the fixed width types _Float16,
 //  _Float32, and _Float64.   However these are distinct types from __fp16,
@@ -372,3 +376,7 @@ cbor_error_t cbor_vpack(cbor_stream_t*s, const char*fmt, va_list args);
 //  t - a timestamp read as double* parameter
 //  v - a cbor value read as cbor_stream_t* paramater
 cbor_error_t cbor_unpack(const cbor_stream_t *s, const char *fmt, ...);
+
+#ifdef __cplusplus
+}
+#endif

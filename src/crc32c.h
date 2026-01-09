@@ -16,7 +16,15 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define CRC32C_INIT (0)
 #define CRC32C_OK_REM (0x48674bc7)
 
 uint32_t crc32c_update(uint32_t crc, const uint8_t* data, size_t n);
+
+#ifdef __cplusplus
+}
+#endif

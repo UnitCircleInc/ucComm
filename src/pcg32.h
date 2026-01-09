@@ -24,6 +24,10 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /// @brief PCG state structure
 ///
 /// @note
@@ -73,3 +77,7 @@ uint32_t pcg32_boundedrand_r(pcg32_random_t* rng, uint32_t bound);
 ///@param[out] b place to store randomly genereated bytes
 ///
 void pcg32_randbytes(pcg32_random_t* rng, size_t n, uint8_t b[n]);
+
+#ifdef __cplusplus
+}
+#endif

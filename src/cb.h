@@ -16,6 +16,10 @@
 
 #include <stdlib.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
   void*  b;
   size_t n;
@@ -42,3 +46,6 @@ size_t cb_space_avail(const cb_t *cb);
 const void* cb_space(const cb_t* cb);
 void cb_commit(cb_t* cb, size_t n);
 
+#ifdef __cplusplus
+}
+#endif

@@ -18,10 +18,16 @@
 
 #include <sys/types.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define COBS_ENC_SIZE(n_) ((((n_)+253u)/254u) + (n_))
 
 size_t cobs_enc_size(size_t n);
 size_t cobs_enc(uint8_t* out, const uint8_t* in, size_t n);
 ssize_t cobs_dec(uint8_t* out, const uint8_t* in, size_t n);
 
-
+#ifdef __cplusplus
+}
+#endif
