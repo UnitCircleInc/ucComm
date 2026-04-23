@@ -86,7 +86,7 @@ size_t cb_space_avail(const cb_t *cb) {
       cb->n - cb->write + (cb->read > 0 ? 1 : 0)) - 1;
 }
 
-const void* cb_space(const cb_t* cb) {
+void* cb_space(const cb_t* cb) {
   return (uint8_t*) cb->b + cb->write;
 }
 
